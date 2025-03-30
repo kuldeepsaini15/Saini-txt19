@@ -309,7 +309,7 @@ async def txt_handler(bot: Client, m: Message):
     await input.delete(True)
     file_name, ext = os.path.splitext(os.path.basename(x))
     credit = f"<b> @SAINI_SAHAB19 </b>"
-     pdf_count = 0
+    pdf_count = 0
     img_count = 0
     zip_count = 0
     video_count = 0
@@ -338,7 +338,7 @@ async def txt_handler(bot: Client, m: Message):
         os.remove(x)
         return
    
-    await editable.edit(f"<pre><code>Total 🔗 links found are {len(links)}\nSend From where you want to download</code></pre>")
+    await editable.edit(f"<pre>`𝗧𝗼𝘁𝗮𝗹 🔗 𝗟𝗶𝗻𝗸𝘀 𝗙𝗼𝘂𝗻𝗱 𝗔𝗿𝗲 {len(links)}\n\n🔹Img : {img_count}  🔹Pdf : {pdf_count}\n🔹Zip : {zip_count}  🔹Video : {video_count}\n\n𝗦𝗲𝗻𝗱 𝗙𝗿𝗼𝗺 𝗪𝗵𝗲𝗿𝗲 𝗬𝗼𝘂 𝗪𝗮𝗻𝘁 𝗧𝗼 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱.`</pre>")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
     await input0.delete(True)
