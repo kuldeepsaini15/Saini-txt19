@@ -309,13 +309,29 @@ async def txt_handler(bot: Client, m: Message):
     await input.delete(True)
     file_name, ext = os.path.splitext(os.path.basename(x))
     credit = f"<b> @SAINI_SAHAB19 </b>"
+     pdf_count = 0
+    img_count = 0
+    zip_count = 0
+    video_count = 0
+    
     try:    
         with open(x, "r") as f:
             content = f.read()
         content = content.split("\n")
+        
         links = []
         for i in content:
-            links.append(i.split("://", 1))
+            if "://" in i:
+                url = i.split("://", 1)[1]
+                links.append(i.split("://", 1))
+                if ".pdf" in url:
+                    pdf_count += 1
+                elif url.endswith((".png", ".jpeg", ".jpg")):
+                    img_count += 1
+                elif ".zip" in url:
+                    zip_count += 1
+                else:
+                    video_count += 1
         os.remove(x)
     except:
         await m.reply_text("<pre><code>Invalid file input.</code></pre>")
