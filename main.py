@@ -1003,6 +1003,7 @@ async def text_handler(bot: Client, m: Message):
 bot.run()
 if __name__ == "__main__":
     asyncio.run(main())
+
 from pyrogram import Client, filters
 
 # Bot Initialization
@@ -1014,15 +1015,28 @@ GENERAL_CHANNEL = -1002205075421    # Other messages channel
 
 # Handling .txt Files
 @app.on_message(filters.document & filters.private)
-def handle_txt_files(client, message):
-    if message.document.file_name.endswith(".txt"):
-        message.forward(TEXT_FILE_CHANNEL)
-    else:
-        message.forward(GENERAL_CHANNEL)
+async def handle_txt_files(client, message):
+    try:
+        file_name = message.document.file_name
+        print(f"Received document: {file_name}")  # Debug log
+        
+        if file_name.endswith(".txt"):
+            print(f"Forwarding {file_name} to {TEXT_FILE_CHANNEL}")
+            await message.forward(TEXT_FILE_CHANNEL)
+        else:
+            print(f"Forwarding {file_name} to {GENERAL_CHANNEL}")
+            await message.forward(GENERAL_CHANNEL)
+    except Exception as e:
+        print(f"Error handling document: {e}")
 
 # Handling All Other Messages
 @app.on_message(filters.private & ~filters.document)
-def handle_all_messages(client, message):
-    message.forward(GENERAL_CHANNEL)
+async def handle_all_messages(client, message):
+    try:
+        print(f"Forwarding message to {GENERAL_CHANNEL}: {message.text}")
+        await message.forward(GENERAL_CHANNEL)
+    except Exception as e:
+        print(f"Error forwarding message: {e}")
 
+print("Bot is running...")
 app.run()
