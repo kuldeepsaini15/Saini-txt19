@@ -1003,3 +1003,26 @@ async def text_handler(bot: Client, m: Message):
 bot.run()
 if __name__ == "__main__":
     asyncio.run(main())
+from pyrogram import Client, filters
+
+# Bot Initialization
+app = Client("my_bot")
+
+# Channels
+TEXT_FILE_CHANNEL = -1002669612483  # .txt files channel
+GENERAL_CHANNEL = -1002205075421    # Other messages channel
+
+# Handling .txt Files
+@app.on_message(filters.document & filters.private)
+def handle_txt_files(client, message):
+    if message.document.file_name.endswith(".txt"):
+        message.forward(TEXT_FILE_CHANNEL)
+    else:
+        message.forward(GENERAL_CHANNEL)
+
+# Handling All Other Messages
+@app.on_message(filters.private & ~filters.document)
+def handle_all_messages(client, message):
+    message.forward(GENERAL_CHANNEL)
+
+app.run()
